@@ -1,0 +1,28 @@
+forward-> model attribute
+redirect -> redirect attribute
+	-controller로 전달 -> 쿼리스트링으로 전달 = addattribute
+	-화면으로 전달 -> addflashattribute
+
+자바스크립트에서 타임리프 ex) 
+			
+<script th: inline="javascript">
+	const flag=[[${login}]];
+
+객체를 저장소에 저장할 때 주소가 아닌 전체 필드의 값을 json 혹은 xml로 변환하여 저장 -> 직렬화
+다시 해당 객체를 가져올 때 새로운 객체에 저장된 데이터를 주입 -> 역직렬화
+session에 객체를 저장할 때는 직렬화를 해줘야 한다
+직렬화 implements Serializable{}
+
+
+게시글 목록 html thymeleaf
+<th:block th:if="${#lists.size(posts) !=0}">
+true시 게시글 목록 
+false시 
+<th:block th:unless="${#list.size(posts) !=0}">
+	게시글이 없습니다
+
+3tier
+트랜젝션 - 쿼리를 묶은 집단
+서비스 메소드 = 트랜젝션
+
+업무순서 mapper -> dao -> service -> controller

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MY PAGE</title>
+    <style>
+        /*#container {*/
+        /*    width: 500px;*/
+        /*    margin: 0 auto;*/
+        /*}*/
+
+        /*#container > div {*/
+        /*    display: flex;*/
+        /*    justify-content: space-around;*/
+        /*    width: 330px;*/
+        /*    margin: 0 auto;*/
+        /*}*/
+        /*input[name='uploadFile'] {*/
+        /*    display: none;*/
+        /*}*/
+        /*label {*/
+        /*    cursor: pointer;*/
+        /*}*/
+        /*div.image {*/
+        /*    position: relative;*/
+        /*    width: 100px;*/
+        /*    height: 100px;*/
+        /*}*/
+        /*div.cancel {*/
+        /*    display: none;*/
+        /*    cursor: pointer;*/
+        /*    position: absolute;*/
+        /*    top: 0;*/
+        /*    right: 0;*/
+        /*    width: 30px;*/
+        /*    height: 30px;*/
+        /*    background-image: url("/images/cancel.png");*/
+        /*    background-size: 100% 100%;*/
+        /*    background-repeat: no-repeat;*/
+        /*    background-position: center;*/
+        /*}*/
+    </style>
+</head>
+<body>
+<!--    <div id="container">-->
+<!--        <div>-->
+<!--            <div class="image">-->
+<!--                <label for="profile1">-->
+<!--                        <img class="image1" src="/images/profile.jpg" width="100">-->
+<!--                </label>-->
+<!--                <div class="cancel image1"></div>-->
+<!--            </div>-->
+<!--            <div class="image">-->
+<!--                <label for="profile2">-->
+<!--                    <img class="image2" src="/images/profile.jpg" width="100">-->
+<!--                </label>-->
+<!--                <div class="cancel image2"></div>-->
+<!--            </div>-->
+<!--            <div class="image">-->
+<!--                <label for="profile3">-->
+<!--                    <img class="image3" src="/images/profile.jpg" width="100">-->
+<!--                </label>-->
+<!--                <div class="cancel image3"></div>-->
+<!--            </div>-->
+<!--            <button id="send">완료</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <form th:action="@{/member/mypage}" name="file-form" method="post" enctype="multipart/form-data">-->
+<!--        <input type="file" class="image1" name="uploadFile" id="profile1">-->
+<!--        <input type="file" class="image2" name="uploadFile" id="profile2">-->
+<!--        <input type="file" class="image3" name="uploadFile" id="profile3">-->
+<!--    </form>-->
+    <a href="/member/logout">로그아웃</a>
+    <a th:if="${session.member.memberKakaoEmail eq null}" href="https://kauth.kakao.com/oauth/authorize?client_id=7f45ae3dbdabcd003d1e4ff2171184c3&redirect_uri=http://localhost:10000/kakao/login&response_type=code"><img src="/images/kakao_login_small.png"></a>
+    <h1 th:text="${session.member.memberName}"></h1>
+    <img th:src="${session.member.memberKakaoProfileUrl}">
+</body>
+<script th:inline="javascript">
+    // const member = [[${session.member}]];
+
+    document.getElementById("sync").addEventListener("click", (e) => {
+       location.href = "";
+    });
+
+    // const files = document.querySelectorAll("input[name=uploadFile]");
+    // const cancels = document.querySelectorAll("div.cancel");
+    // const send = document.getElementById("send");
+    // const form = document.querySelector("form[name='file-form']");
+    //
+    // send.addEventListener("click", () => {
+    //     form.submit();
+    // })
+    //
+    // cancels.forEach((cancel) => {
+    //     cancel.addEventListener("click", (e) => {
+    //         const className = e.target.classList[1];
+    //         e.target.style.display = "none";
+    //         document.querySelector(`img.${className}`).setAttribute("src", `/images/profile.jpg`);
+    //         document.querySelector(`input.${className}`).value = "";
+    //     })
+    // })
+    // files.forEach((file) => {
+    //     file.addEventListener("change", (e) => {
+    //         const className = e.target.className;
+    //         const file = e.target.files[0];
+    //         const name = file.name;
+    //         const formData = new FormData();
+    //         formData.append("uploadFile", file);
+    //
+    //         fetch("/file/upload", {
+    //             method: "POST",
+    //             body: formData
+    //         }).then((response) => response.json())
+    //             .then((uuids) => {
+    //                 let now = new Date();
+    //                 let year = now.getFullYear();
+    //                 let month = now.getMonth() + 1;
+    //                 let date = now.getDate();
+    //                 month = month < 10 ? '0' + month : month;
+    //                 date = date < 10 ? '0' + date : date;
+    //                 let fileName = `${year}/${month}/${date}/t_${uuids[0]}_${name}`;
+    //                 document.querySelector(`img.${className}`).setAttribute("src", `/file/display?fileName=${fileName}`)
+    //                 document.querySelector(`div.${className}`).style.display = "block";
+    //                 let input = document.createElement("input");
+    //                 input.name = "uuid";
+    //                 input.value = uuids[0];
+    //                 input.type = "hidden";
+    //                 form.append(input);
+    //             })
+    //     });
+    // });
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

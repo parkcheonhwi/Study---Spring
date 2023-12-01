@@ -1,0 +1,178 @@
+/회원탈퇴/
+-MemberMapper.java
+
+	public void delete(Long id);
+
+
+-----------------------------------------------
+-memberMapper.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.mybatis.mapper.MemberMapper">
+    <insert id="insert">
+        INSERT INTO TBL_MEMBER
+        VALUES(SEQ_MEMBER.NEXTVAL, #{memberEmail}, #{memberPassword}, #{memberName})
+    </insert>
+
+    <select id="select" resultType="memberVO">
+        SELECT ID, MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_NAME FROM TBL_MEMBER
+        WHERE MEMBER_EMAIL = #{memberEmail} AND MEMBER_PASSWORD = #{memberPassword}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM TBL_MEMBER WHERE ID = #{id}
+    </delete>
+</mapper>
+
+
+-----------------------------------------------------------------------
+
+-MemberTests
+	
+	 @Test
+    	public void memberDeleteTest(){
+            MemberVO memberVO = new MemberVO();
+            memberVO.setMemberEmail("hds1234@gmail.com");
+            memberVO.setMemberPassword("1234");
+            memberMapper.select(memberVO).map(MemberVO::getId)
+                            .ifPresent(memberMapper::delete);
+    }
+
+-------------------------------------------------------------------------
+/게시글 작성/
+
+-PostVO
+
+package com.app.mybatis.domain;
+
+import lombok.Data;
+import org.springframework.stereotype.Component;
+
+@Component
+@Data
+public class PostVO {
+    private Long id;
+    private String postTitle;
+    private String postContent;
+    private Long memberId;
+    private Long postReadCount;
+}
+--------------------------------------
+
+-postMapper.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.mybatis.mapper.PostMapper">
+    <insert id="insert">
+        INSERT INTO TBL_POST(ID, POST_TITLE, POST_CONTENT, MEMBER_ID)
+        VALUES(SEQ_POST.NEXTVAL, #{postTitle}, #{postContent}, #{memberId})
+    </insert>
+
+-------------------------------------
+-PostMapper.java
+
+//    게시글 작성
+    public void insert(PostVO postVO);
+
+------------------------------------------
+
+-MapperTest
+
+    @Autowired
+    private PostMapper postMapper;
+
+
+    @Test
+    public void postInsertTest(){
+        MemberVO memberVO = new MemberVO();
+        memberVO.setMemberEmail("hds1234@gmail.com");
+        memberVO.setMemberPassword("1234");
+
+        memberMapper.select(memberVO).map(MemberVO::getId)
+                .ifPresent(memberId -> {
+                    for (int i=0; i<50; i++){
+                        PostVO postVO = new PostVO();
+                        postVO.setPostTitle("테스트 제목" + (i + 1));
+                        postVO.setPostContent("테스트 내용" + (i + 1));
+                        postVO.setMemberId(memberId);
+                        postMapper.insert(postVO);
+                    }
+                });
+    }
+
+--------------------------------------------------------------------
+/게시글 목록/
+
+-PostMapper.java
+
+//    게시글 목록
+    public List<PostVO> selectAll();
+==============================
+
+-postMapper.xml
+
+
+
+=======================
+oracle DB
+
+CREATE SEQUENCE SEQ_MEMBER;
+
+CREATE TABLE TBL_MEMBER(
+  ID NUMBER CONSTRAINT PK_MEMBER PRIMARY KEY,
+  MEMBER_EMAIL VARCHAR2(255) NOT NULL UNIQUE,
+  MEMBER_PASSWORD VARCHAR2(255) NOT NULL,
+  MEMBER_NAME VARCHAR2(255) NOT NULL
+);
+
+SELECT * FROM TBL_MEMBER;
+
+CREATE SEQUENCE SEQ_POST;
+
+CREATE TABLE TBL_POST(
+    ID NUMBER CONSTRAINT PK_POST PRIMARY KEY,
+    POST_TITLE VARCHAR2(255) NOT NULL,
+    POST_CONTENT VARCHAR2(255) NOT NULL,
+    MEMBER_ID NUMBER NOT NULL,
+    CONSTRAINT FK_POST_MEMBER FOREIGN KEY (MEMBER_ID)
+    REFERENCES TBL_MEMBER(ID)
+);
+
+SELECT * FROM TBL_POST;
+
+
+======================
+
+CREATE SEQUENCE SEQ_MEMBER;
+
+CREATE TABLE TBL_MEMBER(
+  ID NUMBER CONSTRAINT PK_MEMBER PRIMARY KEY,
+  MEMBER_EMAIL VARCHAR2(255) NOT NULL UNIQUE,
+  MEMBER_PASSWORD VARCHAR2(255) NOT NULL,
+  MEMBER_NAME VARCHAR2(255) NOT NULL
+);
+
+SELECT * FROM TBL_MEMBER;
+
+-조회수 db
+
+
+CREATE SEQUENCE SEQ_POST;
+
+CREATE TABLE TBL_POST(
+    ID NUMBER CONSTRAINT PK_POST PRIMARY KEY,
+    POST_TITLE VARCHAR2(255) NOT NULL,
+    POST_CONTENT VARCHAR2(255) NOT NULL,
+    MEMBER_ID NUMBER NOT NULL,
+    POST_READ_COUNT NUMBER DEFAULT 0,
+    CONSTRAINT FK_POST_MEMBER FOREIGN KEY (MEMBER_ID)
+    REFERENCES TBL_MEMBER(ID)
+);
+
+ALTER TABLE TBL_POST MODIFY (POST_READ_COUNT NUMBER DEFAULT 0);
+
+SELECT * FROM TBL_POST;
+
+

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.controller.mapper.CompanyMapper">
+    <insert id="insert">
+        INSERT INTO TBL_COMPANY(ID, NAME, GET_TO_WORK_DATETIME, LEAVE_WORK_DATETIME)
+        <choose>
+            <when test="getToWorkDatetime == null">
+                VALUES(SEQ_COMPANY.NEXTVAL, #{name}, NULL, TO_DATE(#{leaveWorkDatetime}, 'YYYY-MM-DD HH:MI:SS'))
+            </when>
+            <otherwise>
+                VALUES(SEQ_COMPANY.NEXTVAL, #{name}, TO_DATE(#{getToWorkDatetime}, 'YYYY-MM-DD HH:MI:SS'), NULL)
+            </otherwise>
+        </choose>
+    </insert>
+</mapper>

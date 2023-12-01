@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PRODUCT WRITE</title>
+</head>
+<body>
+    <form th:action="@{/product/write}" method="post" th:object="${productVO}">
+        <input type="text" th:field="*{productName}">
+        <input type="text" th:field="*{productBrand}">
+        <input type="text" th:field="*{productPrice}">
+        <input type="text" th:field="*{productStock}">
+        <button>상품 추가</button>
+    </form>
+</body>
+</html>

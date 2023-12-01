@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>LOGIN</title>
+</head>
+<body>
+  <form th:action="@{/member/login}" method="post" th:object="${memberVO}">
+    <div>
+      <input type="text" th:field="*{memberEmail}" placeholder="이메일 입력">
+    </div>
+    <div>
+      <input type="password" th:field="*{memberPassword}" placeholder="비밀번호 입력">
+    </div>
+    <button type="button">완료</button>
+  </form>
+</body>
+<script th:inline="javascript">
+  const flag = [[${login}]];
+  const inputs = document.querySelectorAll("input");
+  const button = document.querySelector("button");
+  const form = document.querySelector("form");
+
+  if(flag !== null){
+      alert("아이디 또는 비밀번호를 확인해주세요.");
+  }
+
+  button.addEventListener("click", () => {
+    for(input of inputs){
+      if(!input.value){
+        return;
+      }
+    }
+
+    form.submit();
+  });
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

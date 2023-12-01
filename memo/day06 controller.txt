@@ -1,0 +1,70 @@
+//    [실습 1]
+//    외부에서 상품명, 상품가격, 상품재고, 브랜드 전달받아서 화면에 전송
+//    화면에서 4개 정보 입력 후 form태그로 전송한다.
+//    - product.html
+
+
+create sequence seq_product;
+
+create table tbl_product(
+	table 내용작성	
+
+)
+select *from tbl_product;
+
+java-> domain -> product.vo
+
+@component
+@data
+
+public class productvo{
+	private table내용 작성
+}
+
+resources-> config -> config.xml
+	product.vo 등록
+
+resources -> mapper -> product.xml
+	productmapper 등록
+
+java -> controller -> mapper -> productmapper 
+
+	// 상품추가
+	public void insert(ProductVO productVO)
+
+product.xml
+insert 작성
+
+java-> dao -> productdao
+
+java -> service -> productservice
+
+productservice 구현체
+
+task -> controller
+
+write.html
+
+
+//    [실습 2]
+//    TaskVO 선언
+//    id(학생번호), kor(국어점수), eng(영어점수), math(수학점수) 선언
+//    총점과 평균 점수 화면에 출력
+//    - register.html
+//    - result.html
+
+
+create seq_student;
+
+create view view_student as // 반정규화시 view 사용
+(
+	select id, kor, eng, math, kor+eng+math as total, (kor+eng+math)/ 3 as average
+	from tbl_student
+);
+
+selelct * from view_student;
+create tbl_student();
+select *from tbl_student;
+
+java -> domain -> studentvo
+

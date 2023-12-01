@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.kakao.mapper.MemberMapper">
+    <insert id="insert">
+        <choose>
+            <when test="memberPassword == null">
+                INSERT INTO TBL_MEMBER(ID, MEMBER_NAME, MEMBER_LOGIN_CODE, MEMBER_KAKAO_EMAIL, MEMBER_KAKAO_PROFILE_URL)
+                VALUES(SEQ_MEMBER.NEXTVAL, #{memberName}, #{memberLoginCode}, #{memberKakaoEmail}, #{memberKakaoProfileUrl})
+            </when>
+            <otherwise>
+                INSERT INTO TBL_MEMBER(ID, MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_NAME, MEMBER_LOGIN_CODE)
+                VALUES(SEQ_MEMBER.NEXTVAL, #{memberEmail}, #{memberPassword}, #{memberName}, #{memberLoginCode})
+            </otherwise>
+        </choose>
+    </insert>
+
+    <select id="select" resultType="memberVO">
+        SELECT ID, MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_NAME, MEMBER_PROFILE_NAME, MEMBER_PROFILE_PATH, MEMBER_STATUS, MEMBER_LOGIN_CODE, MEMBER_KAKAO_EMAIL, MEMBER_KAKAO_PROFILE_URL
+        FROM TBL_MEMBER
+        WHERE ID = #{id}
+    </select>
+
+    <update id="updateKaKaoProfile">
+        UPDATE TBL_MEMBER
+        SET MEMBER_KAKAO_PROFILE_URL = #{memberKakaoProfileUrl}
+        WHERE MEMBER_KAKAO_EMAIL = #{memberKakaoEmail}
+    </update>
+
+    <update id="updateBySync">
+        UPDATE TBL_MEMBER
+        SET MEMBER_KAKAO_EMAIL = #{memberKakaoEmail}, MEMBER_KAKAO_PROFILE_URL = #{memberKakaoProfileUrl}, MEMBER_LOGIN_CODE = 'KAKAO'
+        WHERE ID = #{id}
+    </update>
+
+    <select id="selectKaKao" resultType="memberVO">
+        SELECT ID, MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_NAME, MEMBER_PROFILE_NAME, MEMBER_PROFILE_PATH, MEMBER_STATUS, MEMBER_LOGIN_CODE, MEMBER_KAKAO_EMAIL, MEMBER_KAKAO_PROFILE_URL
+        FROM TBL_MEMBER
+        WHERE MEMBER_KAKAO_EMAIL = #{memberKakaoEmail}
+    </select>
+
+    <select id="selectByLogin" resultType="memberVO">
+        SELECT ID, MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_NAME, MEMBER_PROFILE_NAME, MEMBER_PROFILE_PATH, MEMBER_STATUS, MEMBER_LOGIN_CODE, MEMBER_KAKAO_EMAIL, MEMBER_KAKAO_PROFILE_URL
+        FROM TBL_MEMBER
+        WHERE MEMBER_EMAIL = #{memberEmail} AND MEMBER_PASSWORD = #{memberPassword}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM TBL_MEMBER
+        WHERE ID = #{id}
+    </delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+

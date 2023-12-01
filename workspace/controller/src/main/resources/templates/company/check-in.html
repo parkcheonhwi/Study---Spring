@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CHECK-IN</title>
+</head>
+<body>
+<form th:action="@{/company/check-in}" method="post">
+    <input type="text" name="name" placeholder="이름을 입력하세요.">
+    <input type="hidden" name="flag">
+    <button>출근</button>
+    <button>퇴근</button>
+</form>
+</body>
+<script>
+    document.querySelectorAll("button")
+        .forEach((button) => {
+            button.addEventListener("click", (e) => {
+                const flag = e.target.innerText;
+                document.querySelector("input[name=flag]").value = flag === "출근" ? "getToWork" : "leaveWork";
+                document.querySelector("form").submit();
+            });
+        });
+</script>
+</html>
